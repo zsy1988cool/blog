@@ -24,4 +24,8 @@ Route::get('/profile', ShowProfile::class);
 
 Route::apiResource('photos', \App\Http\Controllers\PhotoController::class);
 
-Route::get('/say/{id}', [\App\Http\Controllers\HelloController::class, 'say']);
+Route::get('/say/{id}', [\App\Http\Controllers\HelloController::class, 'say'])->middleware('auth');
+
+Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
+    return view('dashboard');
+})->name('dashboard');
