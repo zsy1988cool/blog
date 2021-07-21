@@ -29,3 +29,10 @@ Route::get('/say/{id}', [\App\Http\Controllers\HelloController::class, 'say'])->
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return view('dashboard');
 })->name('dashboard');
+
+Route::get('showBlade/{id}', function ($id) {
+    return view("bladelearn.child", ['sex' => $id]);
+});
+
+//Route::get('/create', [\App\Http\Controllers\GoodsController::class, 'create']);
+Route::resource('goods', '\App\Http\Controllers\GoodsController');
