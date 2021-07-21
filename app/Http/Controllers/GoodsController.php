@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Good;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -14,7 +15,8 @@ class GoodsController extends Controller
      */
     public function index()
     {
-        $goods = DB::table('goods')->get();
+        // $goods = DB::table('goods')->get();
+        $goods = Good::all();
         return view('goods.index', ['goods' => $goods]);
     }
 
@@ -45,9 +47,10 @@ class GoodsController extends Controller
         $intro = $request->get('intro');
         $content = $request->get('content');
 
-        $carbon = \Illuminate\Support\Carbon::now('Asia/shanghai');
-        DB::insert('insert into goods (title, intro, content, created_at, updated_at) values (?, ?, ?, ?, ?)', [$title, $intro, $content, $carbon, $carbon]);
+//        $carbon = \Illuminate\Support\Carbon::now('Asia/shanghai');
+//        DB::insert('insert into goods (title, intro, content, created_at, updated_at) values (?, ?, ?, ?, ?)', [$title, $intro, $content, $carbon, $carbon]);
 
+        Good::create(['title' => $title, 'intro' => $intro, 'content' => $content]);
         return redirect('/goods');
     }
 
