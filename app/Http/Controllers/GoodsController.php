@@ -6,6 +6,8 @@ use App\Models\Good;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Events\GoodAddEvent;
+use App\Jobs\SendReminderEmail;
+use Illuminate\Support\Facades\Auth;
 
 class GoodsController extends Controller
 {
@@ -51,10 +53,14 @@ class GoodsController extends Controller
 //        $carbon = \Illuminate\Support\Carbon::now('Asia/shanghai');
 //        DB::insert('insert into goods (title, intro, content, created_at, updated_at) values (?, ?, ?, ?, ?)', [$title, $intro, $content, $carbon, $carbon]);
 
-        $good = Good::create(['title' => $title, 'intro' => $intro, 'content' => $content]);
+        Good::create(['title' => $title, 'intro' => $intro, 'content' => $content]);
 
         // 发送商品新增事件
-        event(new GoodAddEvent($good));
+        // event(new GoodAddEvent($good));
+
+        // 发送商品新增邮件，使用任务队列实现
+        $user = Auth::user();
+        $this->dispatch(new SendReminderEmail($user, $title));
         return redirect('/goods');
     }
 

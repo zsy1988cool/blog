@@ -36,3 +36,5 @@ Route::get('showBlade/{id}', function ($id) {
 
 //Route::get('/create', [\App\Http\Controllers\GoodsController::class, 'create']);
 Route::resource('goods', '\App\Http\Controllers\GoodsController');
+
+Route::get('mail', [\App\Http\Controllers\MailController::class, 'send']);
